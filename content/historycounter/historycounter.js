@@ -1,7 +1,7 @@
 var HistoryCounterService = { 
 	 
 /* Constants */ 
-	
+	 
 	BOX_CLASS_NAME   : 'historycounter-box', 
 	LABEL_CLASS_NAME : 'historycounter-label',
  
@@ -11,6 +11,7 @@ var HistoryCounterService = {
 	SHOW_FORWARD_KEY : 'show.forward',
 	SHOW_TAB_KEY     : 'show.tab',
 	ALIGN_KEY        : 'align',
+	SIZE_KEY         : 'size',
  
 	SHOW_ATTR_PREFIX : 'historycounter-show-in-', 
 	ALIGN_ATTR       : 'historycounter-align',
@@ -33,8 +34,6 @@ var HistoryCounterService = {
 		if (backButton) {
 			var label = backButton.getElementsByAttribute('class', this.LABEL_CLASS_NAME);
 			if (label.length) return label[0];
-//			var label = document.getAnonymousElementByAttribute(backButton, 'class', this.LABEL_CLASS_NAME);
-//			if (label) return label;
 		}
 		return null;
 	},
@@ -53,7 +52,7 @@ var HistoryCounterService = {
 		}
 		return null;
 	},
-  
+ 	 
 	initButtons : function() 
 	{
 		var countBox;
@@ -80,26 +79,16 @@ var HistoryCounterService = {
 			countBox.lastChild.setAttribute('class', this.LABEL_CLASS_NAME);
 
 			forwardButton.insertBefore(countBox, forwardButton.firstChild);
-/*
-			var nodes = document.getAnonymousNodes(forwardButton);
-			for (var i = 0, maxi = nodes.length; i < maxi; i++)
-			{
-				if (nodes[i].localName == 'toolbarbutton') {
-					var dummy = nodes[i].insertBefore(document.createElement('hbox'), nodes[i].firstChild);
-					dummy.setAttribute('style', 'display: none !important;');
-					nodes[i].insertBefore(countBox, nodes[i].firstChild);
-					break;
-				}
-			}
-*/
 		}
 
 		this.updateCount();
 	},
- 	
+ 
 	updateCount : function() 
 	{
 		var history = this.browser.sessionHistory;
+		if (!history) return;
+
 		var count   = history.count;
 		var current = history.index;
 
@@ -151,6 +140,7 @@ var HistoryCounterService = {
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SHOW_FOWRARD_KEY);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SHOW_TAB_KEY);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.ALIGN_KEY);
+		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SIZE_KEY);
 
 		window.__historycounter__UpdateBackForwardButtons = window.UpdateBackForwardButtons;
 		window.UpdateBackForwardButtons = function()

@@ -1,0 +1,10 @@
+<!ENTITY config.title    "何回戻れる？の設定">
+
+<!ENTITY config.show.back    "「戻る」ボタンに戻れる回数を表示する">
+<!ENTITY config.show.forward "「進む」ボタンに進める回数を表示する">
+<!ENTITY config.show.tab     "それぞれのタブに戻れる回数を表示する">
+
+<!ENTITY config.align.caption "カウンタの表示位置">
+<!ENTITY config.align.top     "上">
+<!ENTITY config.align.middle  "中">
+<!ENTITY config.align.bottom  "下">

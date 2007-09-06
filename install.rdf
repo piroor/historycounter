@@ -8,11 +8,9 @@
                    em:version="0.1.2007090701"
                    em:creator="SHIMODA Hiroshi"
                    em:description="Couts up the number of histories in Back and Frward buttons."
-                   em:homepageURL="http://piro.sakura.ne.jp/xul/historycounter/">
-<!--
-                   em:iconURL=""
-                   em:optionsURL=""
--->
+                   em:homepageURL="http://piro.sakura.ne.jp/xul/historycounter/"
+                   em:iconURL="chrome://historycounter/content/icon.png"
+                   em:optionsURL="chrome://historycounter/content/config.xul">
 
     <em:updateURL>https://pub.cozmixng.org/~piro/xul/xul.rdf.en</em:updateURL>
 

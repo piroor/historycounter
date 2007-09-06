@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/"?>
+
+<!DOCTYPE prefwindow [
+<!ENTITY % mainDTD SYSTEM "chrome://historycounter/locale/historycounter.dtd">
+%mainDTD;
+]>
+
+<prefwindow id="historycounter-config"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title="&config.title;">
+
+<prefpane id="prefpane-general" label="">
+	<preferences>
+		<preference id="extensions.historycounter@piro.sakura.ne.jp.show.back"
+			name="extensions.historycounter@piro.sakura.ne.jp.show.back"
+			type="bool"/>
+		<preference id="extensions.historycounter@piro.sakura.ne.jp.show.forward"
+			name="extensions.historycounter@piro.sakura.ne.jp.show.forward"
+			type="bool"/>
+		<preference id="extensions.historycounter@piro.sakura.ne.jp.show.tab"
+			name="extensions.historycounter@piro.sakura.ne.jp.show.tab"
+			type="bool"/>
+		<preference id="extensions.historycounter@piro.sakura.ne.jp.align"
+			name="extensions.historycounter@piro.sakura.ne.jp.align"
+			type="string"/>
+	</preferences>
+
+	<checkbox id="show.back-check"
+		preference="extensions.historycounter@piro.sakura.ne.jp.show.back"
+		label="&config.show.back;"/>
+	<checkbox id="show.forward-check"
+		preference="extensions.historycounter@piro.sakura.ne.jp.show.forward"
+		label="&config.show.forward;"/>
+	<checkbox id="show.tab-check"
+		preference="extensions.historycounter@piro.sakura.ne.jp.show.tab"
+		label="&config.show.tab;"/>
+
+	<groupbox>
+		<caption label="&config.align.caption;"/>
+		<vbox>
+			<radiogroup id="align-radiogroup"
+				preference="extensions.historycounter@piro.sakura.ne.jp.align"
+				orient="vertical">
+				<radio value="top"    label="&config.align.top;"/>
+				<radio value="middle" label="&config.align.middle;"/>
+				<radio value="bottom" label="&config.align.bottom;"/>
+			</radiogroup>
+		</vbox>
+	</groupbox>
+</prefpane>
+
+</prefwindow>
+
