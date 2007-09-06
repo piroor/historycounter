@@ -8,10 +8,11 @@
                    em:version="0.1.0"
                    em:creator="SHIMODA Hiroshi"
                    em:description="Couts up the number of histories in Back and Frward buttons."
-                   em:homepageURL="http://piro.sakura.ne.jp/xul/historycounter/"
+                   em:homepageURL="http://piro.sakura.ne.jp/xul/historycounter/">
+<!--
                    em:iconURL=""
-                   em:optionsURL="">
-
+                   em:optionsURL=""
+-->
 
     <em:updateURL>https://pub.cozmixng.org/~piro/xul/xul.rdf.en</em:updateURL>
 
