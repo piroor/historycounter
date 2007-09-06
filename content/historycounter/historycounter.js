@@ -137,7 +137,7 @@ var HistoryCounterService = {
 
 		this.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SHOW_BACK_KEY);
-		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SHOW_FOWRARD_KEY);
+		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SHOW_FORWARD_KEY);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SHOW_TAB_KEY);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.ALIGN_KEY);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SIZE_KEY);
