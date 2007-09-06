@@ -2,12 +2,15 @@
 
 
 .historycounter-box {
+	-moz-box-pack: center;
+}
+
+toolbarbutton > .historycounter-box {
 	width: 16px;
 	max-width: 16px;
 	position: relative;
 	margin-right: -16px;
 	z-index: 100;
-	-moz-box-pack: end;
 }
 
 .historycounter-label {
@@ -15,4 +18,23 @@
 	margin: 0;
 	padding: 0;
 	min-width: 0;
+}
+
+
+:root[historycounter-align="top"] toolbarbutton > .historycounter-box {
+	-moz-box-pack: start;
+}
+:root[historycounter-align="middle"] toolbarbutton > .historycounter-box,
+:root[historycounter-align="center"] toolbarbutton > .historycounter-box {
+	-moz-box-pack: center;
+}
+:root[historycounter-align="bottom"] toolbarbutton > .historycounter-box {
+	-moz-box-pack: end;
+}
+
+
+:root:not([historycounter-show-in-back="true"]) #back-button .historycounter-box,
+:root:not([historycounter-show-in-forward="true"]) #forward-button .historycounter-box,
+:root:not([historycounter-show-in-tab="true"]) tab .historycounter-box {
+	display: none;
 }
