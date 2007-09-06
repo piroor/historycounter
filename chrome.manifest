@@ -1,0 +1,5 @@
+content	historycounter	jar:chrome/historycounter.jar!/content/historycounter/
+overlay	chrome://browser/content/browser.xul	chrome://historycounter/content/historycounter.xul
+
+locale	historycounter	en-US	jar:chrome/historycounter.jar!/locale/en-US/historycounter/
+locale	historycounter	ja	jar:chrome/historycounter.jar!/locale/ja/historycounter/
