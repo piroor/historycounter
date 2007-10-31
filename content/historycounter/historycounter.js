@@ -151,9 +151,9 @@ var HistoryCounterService = {
 
 		var toolbox = document.getElementById('navigator-toolbox');
 		if (toolbox.customizeDone) {
-			toolbox.__secondsearch__customizeDone = toolbox.customizeDone;
+			toolbox.__historycounter__customizeDone = toolbox.customizeDone;
 			toolbox.customizeDone = function(aChanged) {
-				this.__secondsearch__customizeDone(aChanged);
+				this.__historycounter__customizeDone(aChanged);
 				HistoryCounterService.initButtons();
 			};
 		}
