@@ -3,3 +3,4 @@ overlay	chrome://browser/content/browser.xul	chrome://historycounter/content/his
 
 locale	historycounter	en-US	jar:chrome/historycounter.jar!/locale/en-US/historycounter/
 locale	historycounter	ja	jar:chrome/historycounter.jar!/locale/ja/historycounter/
+locale	historycounter	hu-HU	jar:chrome/historycounter.jar!/locale/hu-HU/historycounter/

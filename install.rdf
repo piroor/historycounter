@@ -11,6 +11,7 @@
                    em:homepageURL="http://piro.sakura.ne.jp/xul/historycounter/"
                    em:iconURL="chrome://historycounter/content/icon.png"
                    em:optionsURL="chrome://historycounter/content/config.xul">
+	<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
 
     <em:updateURL>http://piro.sakura.ne.jp/xul/update.rdf</em:updateURL>
     <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDLI43lgUhWE0E7bfiuTrQMKIP53KM3w71VEPc9FxE7YS3Hpr85dC/GgEUDPd6xD7UP7ckzEusN49LCAKoipepxgyAWzQjZ3CzvkD7PWsZFTi7lpj9ytYDysoFwHs0L96i5oiVopNj1NQM2AC0Y5Lr0b6lz2L5ece0/z6monpZXPQIDAQAB</em:updateKey>
@@ -25,6 +26,11 @@
       <RDF:Description em:locale="ja"
                        em:name="何回戻れる？"
                        em:description="「戻る」「進む」ボタンに、保持している履歴の件数を表示します。"/>
+    </em:localized>
+    <em:localized>
+      <RDF:Description em:locale="hu-HU"
+                       em:name="How Many Times Can I Back?"
+                       em:description="Előzményszámláló megjelenítése az &quot;Ugrás az előző/következő oldalra&quot; gombokon."/>
     </em:localized>
 
 

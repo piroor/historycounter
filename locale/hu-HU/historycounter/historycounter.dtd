@@ -1,0 +1,10 @@
+<!ENTITY config.title    "Beállítások - How Many Times Can I Back?">
+
+<!ENTITY config.show.back    "Számláló megjelenítése az &quot;Ugrás az előző oldalra&quot; gombon">
+<!ENTITY config.show.forward "Számláló megjelenítése az &quot;Ugrás a következő oldalra&quot; gombon">
+<!ENTITY config.show.tab     "Számláló megjelenítése miden fülön">
+
+<!ENTITY config.align.caption "A számláló elhelyezése a gombon:">
+<!ENTITY config.align.top     "Felül">
+<!ENTITY config.align.middle  "Középen">
+<!ENTITY config.align.bottom  "Alul">
