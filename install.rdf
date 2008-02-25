@@ -20,17 +20,20 @@
     <em:localized>
       <RDF:Description em:locale="en-US"
                        em:name="How Many Times Can I Back?"
-                       em:description="Counts up the numbner of histories in Back and Forward buttons."/>
+                       em:description="Counts up the numbner of histories in Back and Forward buttons."
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_historycounter.html.en"/>
     </em:localized>
     <em:localized>
       <RDF:Description em:locale="ja"
                        em:name="何回戻れる？"
-                       em:description="「戻る」「進む」ボタンに、保持している履歴の件数を表示します。"/>
+                       em:description="「戻る」「進む」ボタンに、保持している履歴の件数を表示します。"
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_historycounter.html"/>
     </em:localized>
     <em:localized>
       <RDF:Description em:locale="hu-HU"
                        em:name="How Many Times Can I Back?"
-                       em:description="Előzményszámláló megjelenítése az &quot;Ugrás az előző/következő oldalra&quot; gombokon."/>
+                       em:description="Előzményszámláló megjelenítése az &quot;Ugrás az előző/következő oldalra&quot; gombokon."
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_historycounter.html.en"/>
     </em:localized>
 
 
