@@ -142,12 +142,22 @@ var HistoryCounterService = {
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.ALIGN_KEY);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SIZE_KEY);
 
-		window.__historycounter__UpdateBackForwardButtons = window.UpdateBackForwardButtons;
-		window.UpdateBackForwardButtons = function()
-		{
-			__historycounter__UpdateBackForwardButtons();
-			HistoryCounterService.updateCount();
-		};
+		if ('UpdateBackForwardButtons' in window) {
+			window.__historycounter__UpdateBackForwardButtons = window.UpdateBackForwardButtons;
+			window.UpdateBackForwardButtons = function()
+			{
+				__historycounter__UpdateBackForwardButtons();
+				HistoryCounterService.updateCount();
+			};
+		}
+		if ('UpdateBackForwardCommands' in window) {
+			eval('window.UpdateBackForwardCommands = '+
+				window.UpdateBackForwardCommands.toSource().replace(
+					/(\}\)?)$/,
+					'HistoryCounterService.updateCount();$1'
+				)
+			);
+		}
 
 		var toolbox = document.getElementById('navigator-toolbox');
 		if (toolbox.customizeDone) {
@@ -166,7 +176,7 @@ var HistoryCounterService = {
 		}
 
 		this.initTabBrowser(this.browser);
-		this.initButtons();
+		window.setTimeout(function(aSelf) { aSelf.initButtons(); }, 0, this);
 
 		this.initialized = true;
 	},

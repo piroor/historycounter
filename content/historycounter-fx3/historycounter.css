@@ -1,0 +1,12 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#forward-button > .historycounter-box {
+	width: 24px;
+	margin-right: -24px;
+	text-align: right;
+}
+
+#unified-back-forward-button > #back-button,
+#unified-back-forward-button > #forward-button {
+	-moz-box-orient: horizontal !important;
+}

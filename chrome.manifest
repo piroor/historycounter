@@ -1,6 +1,9 @@
 content	historycounter	jar:chrome/historycounter.jar!/content/historycounter/
 overlay	chrome://browser/content/browser.xul	chrome://historycounter/content/historycounter.xul
 
+content	historycounter-fx3	jar:chrome/historycounter.jar!/content/historycounter-fx3/	appversion>=3.0b5pre
+overlay	chrome://browser/content/browser.xul	chrome://historycounter-fx3/content/historycounter.xul
+
 locale	historycounter	en-US	jar:chrome/historycounter.jar!/locale/en-US/historycounter/
 locale	historycounter	ja	jar:chrome/historycounter.jar!/locale/ja/historycounter/
 locale	historycounter	hu-HU	jar:chrome/historycounter.jar!/locale/hu-HU/historycounter/

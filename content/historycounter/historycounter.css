@@ -5,13 +5,14 @@
 	-moz-box-pack: center;
 }
 
+
 toolbarbutton > .historycounter-box {
 	width: 16px;
-	max-width: 16px;
 	position: relative;
 	margin-right: -16px;
 	z-index: 100;
 }
+
 
 .historycounter-label {
 	font-size: 10px;
