@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="historycounter@piro.sakura.ne.jp"
                    em:name="How Many Times Can I Back?"
-                   em:version="0.1.2008061601"
+                   em:version="0.1.2008101801"
                    em:creator="SHIMODA Hiroshi"
                    em:description="Couts up the number of histories in Back and Frward buttons."
                    em:homepageURL="http://piro.sakura.ne.jp/xul/historycounter/"
@@ -41,7 +41,7 @@
       <!-- Firefox -->
       <RDF:Description em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                        em:minVersion="1.5"
-                       em:maxVersion="3.0.*" />
+                       em:maxVersion="3.1b2pre" />
     </em:targetApplication>
   </RDF:Description>
 </RDF:RDF>

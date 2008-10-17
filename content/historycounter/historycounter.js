@@ -52,7 +52,19 @@ var HistoryCounterService = {
 		}
 		return null;
 	},
- 	 
+ 
+	getTabBrowserFromChild : function(aNode) 
+	{
+		if (!aNode) return null;
+		return aNode.ownerDocument.evaluate(
+				'ancestor-or-self::*[local-name()="tabbrowser"]',
+				aNode,
+				null,
+				XPathResult.FIRST_ORDERED_NODE_TYPE,
+				null
+			).singleNodeValue;
+	},
+  
 	initButtons : function() 
 	{
 		var countBox;
@@ -225,12 +237,23 @@ var HistoryCounterService = {
 		delete i;
 		delete maxi;
 		delete tabs;
+
+		if ('swapBrowsersAndCloseOther' in aTabBrowser) {
+			eval('aTabBrowser.swapBrowsersAndCloseOther = '+aTabBrowser.swapBrowsersAndCloseOther.toSource().replace(
+				'{',
+				'{ HistoryCounterService.destroyTab(aOurTab);'
+			).replace(
+				'if (tabCount == 1)',
+				'HistoryCounterService.initTab(aOurTab); $&'
+			));
+		}
 	},
  
 	initTab : function(aTab, aTabBrowser) 
 	{
 		if (aTab.__historycounter__progressListener) return;
 
+		if (!aTabBrowser) aTabBrowser = this.getTabBrowserFromChild(aTab);
 		var counter = document.getAnonymousElementByAttribute(aTab, 'class', this.BOX_CLASS_NAME);
 		if (!counter) {
 			counter = document.createElement('vbox');
@@ -259,7 +282,7 @@ var HistoryCounterService = {
 		aTab.__historycounter__progressListener = listener;
 		aTab.__historycounter__progressFilter   = filter;
 	},
-  
+ 	 
 	destroy : function() 
 	{
 		if (!this.browser) return;
