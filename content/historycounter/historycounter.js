@@ -243,8 +243,8 @@ var HistoryCounterService = {
 				'{',
 				'{ HistoryCounterService.destroyTab(aOurTab);'
 			).replace(
-				'if (tabCount == 1)',
-				'HistoryCounterService.initTab(aOurTab); $&'
+				/(if \((?:tabCount == 1|aOurTab == this.selectedTab)\))/,
+				'HistoryCounterService.initTab(aOurTab); $1'
 			));
 		}
 	},
