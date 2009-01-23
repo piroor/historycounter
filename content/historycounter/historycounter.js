@@ -64,6 +64,17 @@ var HistoryCounterService = {
 				null
 			).singleNodeValue;
 	},
+ 
+	getTabs : function(aTabBrowser) 
+	{
+		return aTabBrowser.ownerDocument.evaluate(
+				'descendant::*[local-name()="tab"]',
+				aTabBrowser.mTabContainer,
+				null,
+				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+				null
+			);
+	},
   
 	initButtons : function() 
 	{
@@ -226,10 +237,10 @@ var HistoryCounterService = {
 			return retVal;
 		};
 
-		var tabs = aTabBrowser.mTabContainer.childNodes;
-		for (var i = 0, maxi = tabs.length; i < maxi; i++)
+		var tabs = this.getTabs(aTabBrowser);
+		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
-			this.initTab(tabs[i], aTabBrowser);
+			this.initTab(tabs.snapshotItem(i), aTabBrowser);
 		}
 
 		delete addTabMethod;
@@ -296,10 +307,10 @@ var HistoryCounterService = {
 	 
 	destroyTabBrowser : function(aTabBrowser) 
 	{
-		var tabs = aTabBrowser.mTabContainer.childNodes;
-		for (var i = 0, maxi = tabs.length; i < maxi; i++)
+		var tabs = this.getTabs(aTabBrowser);
+		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
-			this.destroyTab(tabs[i]);
+			this.destroyTab(tabs.snapshotItem(i));
 		}
 	},
  
