@@ -275,10 +275,7 @@ var HistoryCounterService = {
 
 			var text = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 			if (text) {
-				if (text.nextSibling)
-					text.parentNode.insertBefore(counter, text.nextSibling);
-				else
-					text.parentNode.appendChild(counter);
+				text.parentNode.insertBefore(counter, text.nextSibling);
 			}
 
 			this.updateCountForTab(aTab, aTabBrowser);
