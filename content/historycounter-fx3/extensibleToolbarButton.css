@@ -1,5 +1,6 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-:root[extensibleToolbarButton="1"] toolbarbutton {
+:root[extensibleToolbarButton="1"] toolbarbutton#back-button,
+:root[extensibleToolbarButton="1"] toolbarbutton#forward-button {
 	-moz-binding: url(extensibleToolbarButton.xml#extensible-toolbarbutton) !important;
 }
