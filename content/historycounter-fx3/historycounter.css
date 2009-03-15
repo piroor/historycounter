@@ -15,3 +15,12 @@
 #unified-back-forward-button > #forward-button > .historycounter-box {
 	height: 30px;
 }
+
+#back-button .historycounter-label,
+#forward-button .historycounter-label {
+	text-shadow: 0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog;
+}
