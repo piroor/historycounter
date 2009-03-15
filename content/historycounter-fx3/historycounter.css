@@ -10,3 +10,8 @@
 #unified-back-forward-button > #forward-button {
 	-moz-box-orient: horizontal !important;
 }
+
+#unified-back-forward-button > #back-button > .historycounter-box,
+#unified-back-forward-button > #forward-button > .historycounter-box {
+	height: 30px;
+}
