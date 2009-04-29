@@ -254,8 +254,8 @@ var HistoryCounterService = {
 				'{',
 				'{ HistoryCounterService.destroyTab(aOurTab);'
 			).replace(
-				/(if \((?:tabCount == 1|aOurTab == this.selectedTab)\))/,
-				'HistoryCounterService.initTab(aOurTab); $1'
+				'if (aOurTab == this.selectedTab) {this.updateCurrentBrowser(',
+				'HistoryCounterService.initTab(aOurTab); $&'
 			));
 		}
 	},
