@@ -1,4 +1,17 @@
 <?xml version="1.0"?>
+<!--
+ Firefox 2 compatible tab structure library for Firefox 3 or later
+
+ Usage:
+   <?xul-overlay href="tabFx2Compatible.xul"?>
+
+ lisence: The MIT License, Copyright (c) 2009 SHIMODA "Piro" Hiroshi
+   http://www.cozmixng.org/repos/piro/fx3-compatibility-lib/trunk/license.txt
+ original:
+   http://www.cozmixng.org/repos/piro/fx3-compatibility-lib/trunk/tabFx2Compatible.xul
+   http://www.cozmixng.org/repos/piro/fx3-compatibility-lib/trunk/tabFx2Compatible.xml
+   http://www.cozmixng.org/repos/piro/fx3-compatibility-lib/trunk/tabFx2Compatible.css
+-->
 <?xml-stylesheet href="tabFx2Compatible.css" type="text/css"?>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <script type="application/x-javascript"><![CDATA[
@@ -6,7 +19,7 @@
 window.addEventListener('DOMContentLoaded', function() {
 	window.removeEventListener('DOMContentLoaded', arguments.callee, true);
 
-	const currentRevision = 1;
+	const currentRevision = 5;
 
 	var b = document.getElementById('content');
 	if (!b || b.localName != 'tabbrowser') return;
@@ -25,10 +38,37 @@ window.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
-	switch (window.getComputedStyle(b.selectedTab, '').getPropertyValue('-moz-binding'))
+	var url = window.getComputedStyle(b.selectedTab, '').getPropertyValue('-moz-binding');
+	url = url.match(/url\((.+)\)/);
+	if (url) {
+		url = url[1];
+		if (url && url.indexOf('"') == 0)
+			url = url.replace(/^"|"$/g, '');
+		else if (url && url.indexOf("'") == 0)
+			url = url.replace(/^'|'$/g, '');
+	}
+	switch (url)
 	{
-		case 'url(chrome://browser/content/tabbrowser.xml#tabbrowser-tab)':
+		case 'chrome://browser/skin/browser.xml#tabbrowser-tab': // defied by theme
+			const Pref = Components.classes['@mozilla.org/preferences;1']
+					.getService(Components.interfaces.nsIPrefBranch);
+			var skin = decodeURIComponent(escape(Pref.getCharPref('general.skins.selectedSkin')));
+			switch (skin.toLowerCase())
+			{
+				case 'classic/1.0': // Default
+				case 'chromifox': // Chromifox Basic: https://addons.mozilla.org/firefox/addon/8782
+					break;
+				default:
+					return;
+			}
+		case 'chrome://browser/content/tabbrowser.xml#tabbrowser-tab': // built-in
 			root.setAttribute('tabFx2Compatible', currentRevision);
+			var flags = [];
+			if (navigator.platform.toLowerCase().indexOf('mac') > -1)
+				flags.push('mac');
+			if ('nsPIPlacesDatabase' in Components.interfaces)
+				flags.push('png-throbber');
+			root.setAttribute('tabFx2Compatible-flags', flags.join(' '));
 			break;
 	}
 }, true);
