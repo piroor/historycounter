@@ -390,79 +390,60 @@ var HistoryCounterService = {
 	 
 	get Prefs() 
 	{
-		if (!this._Prefs) {
-			this._Prefs = Components.classes['@mozilla.org/preferences;1'].getService(Components.interfaces.nsIPrefBranch);
-		}
-		return this._Prefs;
+		delete this.Prefs;
+		this.Prefs = Components
+						.classes['@mozilla.org/preferences;1']
+						.getService(Components.interfaces.nsIPrefBranch)
+						.QueryInterface(Components.interfaces.nsIPrefBranchInternal);
+		return this.Prefs;
 	},
-	_Prefs : null,
  
 	getPref : function(aPrefstring) 
 	{
-		try {
-			switch (this.Prefs.getPrefType(aPrefstring))
-			{
-				case this.Prefs.PREF_STRING:
-					return decodeURIComponent(escape(this.Prefs.getCharPref(aPrefstring)));
-					break;
-				case this.Prefs.PREF_INT:
-					return this.Prefs.getIntPref(aPrefstring);
-					break;
-				default:
-					return this.Prefs.getBoolPref(aPrefstring);
-					break;
-			}
-		}
-		catch(e) {
-		}
+		switch (this.Prefs.getPrefType(aPrefstring))
+		{
+			case this.Prefs.PREF_STRING:
+				return decodeURIComponent(escape(this.Prefs.getCharPref(aPrefstring)));
 
-		return null;
+			case this.Prefs.PREF_INT:
+				return this.Prefs.getIntPref(aPrefstring);
+
+			case this.Prefs.PREF_BOOL:
+				return this.Prefs.getBoolPref(aPrefstring);
+
+			case this.Prefs.PREF_INVALID:
+			default:
+				return null;
+		}
 	},
  
 	setPref : function(aPrefstring, aNewValue) 
 	{
-		var pref = this.Prefs ;
-		var type;
-		try {
-			type = typeof aNewValue;
-		}
-		catch(e) {
-			type = null;
-		}
-
-		switch (type)
+		switch (typeof aNewValue)
 		{
 			case 'string':
-				pref.setCharPref(aPrefstring, unescape(encodeURIComponent(aNewValue)));
-				break;
+				return this.Prefs.setCharPref(aPrefstring, unescape(encodeURIComponent(aNewValue)));
+
 			case 'number':
-				pref.setIntPref(aPrefstring, parseInt(aNewValue));
-				break;
+				return this.Prefs.setIntPref(aPrefstring, parseInt(aNewValue));
+
 			default:
-				pref.setBoolPref(aPrefstring, aNewValue);
-				break;
+				return this.Prefs.setBoolPref(aPrefstring, aNewValue);
 		}
-		return true;
 	},
  
 	clearPref : function(aPrefstring) 
 	{
-		try {
+		if (this.Prefs.prefHasUserValue(aPrefstring))
 			this.Prefs.clearUserPref(aPrefstring);
-		}
-		catch(e) {
-		}
-
-		return;
 	},
  
 	addPrefListener : function(aObserver) 
 	{
-		var domains = ('domains' in aObserver) ? aObserver.domains : [aObserver.domain || aObserver.PREFROOT] ;
+		var domains = ('domains' in aObserver) ? aObserver.domains : [aObserver.domain] ;
 		try {
-			var pbi = this.Prefs.QueryInterface(Components.interfaces.nsIPrefBranchInternal);
-			for (var i = 0; i < domains.length; i++)
-				pbi.addObserver(domains[i], aObserver, false);
+			for each (var domain in domains)
+				this.Prefs.addObserver(domain, aObserver, false);
 		}
 		catch(e) {
 		}
@@ -470,11 +451,10 @@ var HistoryCounterService = {
  
 	removePrefListener : function(aObserver) 
 	{
-		var domains = ('domains' in aObserver) ? aObserver.domains : [aObserver.domain || aObserver.PREFROOT] ;
+		var domains = ('domains' in aObserver) ? aObserver.domains : [aObserver.domain] ;
 		try {
-			var pbi = this.Prefs.QueryInterface(Components.interfaces.nsIPrefBranchInternal);
-			for (var i = 0; i < domains.length; i++)
-				pbi.removeObserver(domains[i], aObserver, false);
+			for each (var domain in domains)
+				this.Prefs.removeObserver(domain, aObserver, false);
 		}
 		catch(e) {
 		}
