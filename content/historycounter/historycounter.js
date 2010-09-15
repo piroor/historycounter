@@ -275,7 +275,8 @@ var HistoryCounterService = {
 			counter.appendChild(document.createElement('label'));
 			counter.lastChild.setAttribute('class', this.LABEL_CLASS_NAME);
 
-			var text = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+			var text = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') ||
+						document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 			if (text) {
 				text.parentNode.insertBefore(counter, text.nextSibling);
 			}
