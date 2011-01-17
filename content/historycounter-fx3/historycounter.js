@@ -119,19 +119,27 @@ var HistoryCounterService = {
 
 		var backCount = this.backCount;
 		if (backCount && this.getPref(this.PREFROOT + '.' + this.SHOW_BACK_KEY)) {
-			if (current > 0)
+			if (current > 0) {
 				backCount.setAttribute('value', current);
-			else
+				backCount.parentNode.hidden = false;
+			}
+			else {
 				backCount.removeAttribute('value');
+				backCount.parentNode.hidden = true;
+			}
 		}
 
 		var forwardCount = this.forwardCount;
 		if (forwardCount && this.getPref(this.PREFROOT + '.' + this.SHOW_FORWARD_KEY)) {
 			var forwardNum = count - current - 1;
-			if (forwardNum > 0)
+			if (forwardNum > 0) {
 				forwardCount.setAttribute('value', forwardNum);
-			else
+				forwardCount.parentNode.hidden = false;
+			}
+			else {
 				forwardCount.removeAttribute('value');
+				forwardCount.parentNode.hidden = true;
+			}
 		}
 	},
  

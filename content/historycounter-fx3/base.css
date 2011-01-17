@@ -1,0 +1,64 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+.historycounter-box {
+	-moz-box-pack: center;
+}
+
+toolbarbutton > .historycounter-box {
+	width: 16px;
+	position: relative;
+	margin-right: -16px;
+	z-index: 100;
+}
+
+.historycounter-label {
+	font-size: 10px;
+	margin: 0;
+	padding: 0;
+	min-width: 0;
+}
+
+:root[historycounter-align="top"] toolbarbutton > .historycounter-box {
+	-moz-box-pack: start;
+}
+:root[historycounter-align="middle"] toolbarbutton > .historycounter-box,
+:root[historycounter-align="center"] toolbarbutton > .historycounter-box {
+	-moz-box-pack: center;
+}
+:root[historycounter-align="bottom"] toolbarbutton > .historycounter-box {
+	-moz-box-pack: end;
+}
+
+:root:not([historycounter-show-in-back="true"]) #back-button .historycounter-box,
+:root:not([historycounter-show-in-forward="true"]) #forward-button .historycounter-box,
+:root:not([historycounter-show-in-tab="true"]) tab .historycounter-box {
+	display: none;
+}
+
+
+
+
+#forward-button > .historycounter-box {
+	width: 24px;
+	margin-right: -24px;
+	text-align: right;
+}
+
+#unified-back-forward-button > #back-button,
+#unified-back-forward-button > #forward-button {
+	-moz-box-orient: horizontal !important;
+}
+
+#unified-back-forward-button > #back-button > .historycounter-box,
+#unified-back-forward-button > #forward-button > .historycounter-box {
+	height: 30px;
+}
+
+#back-button .historycounter-label,
+#forward-button .historycounter-label {
+	text-shadow: 0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog;
+}

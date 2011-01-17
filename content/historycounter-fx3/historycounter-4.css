@@ -1,0 +1,8 @@
+@import url('base.css');
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#unified-back-forward-button > #back-button > .historycounter-box,
+#unified-back-forward-button > #forward-button > .historycounter-box {
+	height: 20px;
+}

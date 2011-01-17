@@ -3,4 +3,5 @@
 <?xul-overlay href="extensibleToolbarButton.xul"?>
 <?xul-overlay href="tabFx2Compatible.xul"?>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/x-javascript" src="historycounter.js"/>
 </overlay>
