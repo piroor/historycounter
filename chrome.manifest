@@ -5,4 +5,4 @@ locale	historycounter	en-US	jar:chrome/historycounter.jar!/locale/en-US/historyc
 locale	historycounter	ja	jar:chrome/historycounter.jar!/locale/ja/historycounter/
 locale	historycounter	hu-HU	jar:chrome/historycounter.jar!/locale/hu-HU/historycounter/
 
-override chrome://historycounter/content/historycounter.css	chrome://historycounter/content/historycounter-fx4.css	appversion>=4.0b5pre
+override chrome://historycounter/content/historycounter.css	chrome://historycounter/content/historycounter-4.css	appversion>=4.0b5pre
