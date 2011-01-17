@@ -167,6 +167,9 @@ var HistoryCounterService = {
 		if (!this.browser) return;
 
 		window.removeEventListener('load', this, false);
+		window.addEventListener('TabOpen', this, false);
+		window.addEventListener('TabClose', this, false);
+		window.addEventListener('TabMove', this, false);
 
 		this.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SHOW_BACK_KEY);
@@ -216,48 +219,12 @@ var HistoryCounterService = {
 	 
 	initTabBrowser : function(aTabBrowser) 
 	{
-		var addTabMethod = 'addTab';
-		var removeTabMethod = 'removeTab';
-		if (aTabBrowser.__tabextensions__addTab) {
-			addTabMethod = '__tabextensions__addTab';
-			removeTabMethod = '__tabextensions__removeTab';
-		}
-
-		aTabBrowser.__historycounter__originalAddTab = aTabBrowser[addTabMethod];
-		aTabBrowser[addTabMethod] = function() {
-			var tab = this.__historycounter__originalAddTab.apply(this, arguments);
-			try {
-				HistoryCounterService.initTab(tab, this);
-			}
-			catch(e) {
-			}
-			return tab;
-		};
-
-		aTabBrowser.__historycounter__originalRemoveTab = aTabBrowser[removeTabMethod];
-		aTabBrowser[removeTabMethod] = function(aTab) {
-			HistoryCounterService.destroyTab(aTab);
-			var retVal = this.__historycounter__originalRemoveTab.apply(this, arguments);
-			try {
-				if (aTab.parentNode)
-					HistoryCounterService.initTab(aTab, this);
-			}
-			catch(e) {
-			}
-			return retVal;
-		};
 
 		var tabs = this.getTabs(aTabBrowser);
-		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
+		for (let i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
 			this.initTab(tabs.snapshotItem(i), aTabBrowser);
 		}
-
-		delete addTabMethod;
-		delete removeTabMethod;
-		delete i;
-		delete maxi;
-		delete tabs;
 
 		if ('swapBrowsersAndCloseOther' in aTabBrowser) {
 			eval('aTabBrowser.swapBrowsersAndCloseOther = '+aTabBrowser.swapBrowsersAndCloseOther.toSource().replace(
@@ -308,6 +275,10 @@ var HistoryCounterService = {
 
 		window.removeEventListener('unload', this, false);
 
+		window.removeEventListener('TabOpen', this, false);
+		window.removeEventListener('TabClose', this, false);
+		window.removeEventListener('TabMove', this, false);
+
 		this.removePrefListener(this);
 
 		this.destroyTabBrowser(this.browser);
@@ -349,12 +320,31 @@ var HistoryCounterService = {
 		switch (aEvent.type)
 		{
 			case 'load':
-				this.init();
+				return this.init();
 				break;
 
 			case 'unload':
-				this.destroy();
-				break;
+				return this.destroy();
+
+			case 'TabOpen':
+				return this.initTab(aEvent.originalTarget);
+
+			case 'TabClose':
+				return this.destroyTab(aEvent.originalTarget);
+
+			case 'TabMove':
+				return this.onTabMove(aEvent);
+		}
+	},
+ 
+	onTabMove : function(aEvent)
+	{
+		var tab = aEvent.originalTarget;
+		this.destroyTab(tab);
+		try {
+			this.initTab(tab);
+		}
+		catch(e) {
 		}
 	},
  
