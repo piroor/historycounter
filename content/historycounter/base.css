@@ -31,7 +31,8 @@ toolbarbutton > .historycounter-box {
 
 :root:not([historycounter-show-in-back="true"]) #back-button .historycounter-box,
 :root:not([historycounter-show-in-forward="true"]) #forward-button .historycounter-box,
-:root:not([historycounter-show-in-tab="true"]) tab .historycounter-box {
+:root:not([historycounter-show-in-tab="true"]) .tabbrowser-tab .historycounter-box,
+.tabbrowser-tab[pinned] .historycounter-box {
 	display: none;
 }
 
