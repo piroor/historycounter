@@ -1,7 +1,7 @@
 var HistoryCounterService = { 
-	 
+	
 /* Constants */ 
-	 
+	
 	BOX_CLASS_NAME   : 'historycounter-box', 
 	LABEL_CLASS_NAME : 'historycounter-label',
  
@@ -17,7 +17,7 @@ var HistoryCounterService = {
 	ALIGN_ATTR       : 'historycounter-align',
   
 /* Utilities */ 
-	 
+	
 	get browser() 
 	{
 		return gBrowser;
@@ -159,7 +159,7 @@ var HistoryCounterService = {
 	},
  
 /* Initializing */ 
-	 
+	
 	init : function() 
 	{
 		if (!this.browser) return;
@@ -175,23 +175,6 @@ var HistoryCounterService = {
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SHOW_TAB_KEY);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.ALIGN_KEY);
 		this.observe(null, 'nsPref:changed', this.PREFROOT + '.' + this.SIZE_KEY);
-
-		if ('UpdateBackForwardButtons' in window) {
-			window.__historycounter__UpdateBackForwardButtons = window.UpdateBackForwardButtons;
-			window.UpdateBackForwardButtons = function()
-			{
-				__historycounter__UpdateBackForwardButtons();
-				HistoryCounterService.updateCount();
-			};
-		}
-		if ('UpdateBackForwardCommands' in window) {
-			eval('window.UpdateBackForwardCommands = '+
-				window.UpdateBackForwardCommands.toSource().replace(
-					/(\}\)?)$/,
-					'HistoryCounterService.updateCount();$1'
-				)
-			);
-		}
 
 		var toolbox = document.getElementById('navigator-toolbox');
 		if (toolbox.customizeDone) {
@@ -214,9 +197,10 @@ var HistoryCounterService = {
 
 		this.initialized = true;
 	},
-	 
+	
 	initTabBrowser : function(aTabBrowser) 
 	{
+		aTabBrowser.addProgressListener(this, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 
 		var tabs = this.getTabs(aTabBrowser);
 		for (let i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -266,7 +250,7 @@ var HistoryCounterService = {
 		aTab.__historycounter__progressListener = listener;
 		aTab.__historycounter__progressFilter   = filter;
 	},
- 	 
+  
 	destroy : function() 
 	{
 		if (!this.browser) return;
@@ -281,9 +265,11 @@ var HistoryCounterService = {
 
 		this.destroyTabBrowser(this.browser);
 	},
-	 
+	
 	destroyTabBrowser : function(aTabBrowser) 
 	{
+		aTabBrowser.removeProgressListener(this);
+
 		var tabs = this.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
@@ -335,7 +321,7 @@ var HistoryCounterService = {
 		}
 	},
  
-	onTabMove : function(aEvent)
+	onTabMove : function(aEvent) 
 	{
 		var tab = aEvent.originalTarget;
 		this.destroyTab(tab);
@@ -386,7 +372,7 @@ var HistoryCounterService = {
 	},
   
 /* Save/Load Prefs */ 
-	 
+	
 	get Prefs() 
 	{
 		delete this.Prefs;
@@ -457,8 +443,33 @@ var HistoryCounterService = {
 		}
 		catch(e) {
 		}
-	}
+	},
   
+/* nsIWebProgressListener */ 
+	onStateChange : function() {},
+	onProgressChange : function() {},
+	onStatusChange : function() {},
+	onSecurityChange : function() {},
+	onLocationChange : function(aWebProgress, aRequest, aLocation)
+	{
+		this.updateCount();
+		window.setTimeout(function(aSelf) { aSelf.updateCount(); }, 0, this);
+	},
+
+/* nsIWebProgressListener2 */
+	onProgressChange64 : function() {},
+	onRefreshAttempted : function() { return true; },
+
+/* nsISupports */
+	QueryInterface : function (aIID)
+	{
+		if (aIID.equals(Ci.nsIWebProgressListener) ||
+			aIID.equals(Ci.nsIWebProgressListener2) ||
+			aIID.equals(Ci.nsISupports))
+			return this;
+		throw Components.results.NS_NOINTERFACE;
+	}
+ 
 }; 
 
 window.addEventListener('load', HistoryCounterService, false);
