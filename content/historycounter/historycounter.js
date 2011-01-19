@@ -86,7 +86,6 @@ var HistoryCounterService = {
 		if (backButton && !this.backCount) {
 			countBox = document.createElement('vbox');
 			countBox.setAttribute('class', this.BOX_CLASS_NAME);
-			countBox.setAttribute('onclick', 'if (this.parentNode.oncommand) { this.parentNode.oncommand(); } else { eval(this.parentNode.getAttribute("oncommand")); }');
 
 			countBox.appendChild(document.createElement('label'));
 			countBox.lastChild.setAttribute('class', this.LABEL_CLASS_NAME);
@@ -98,7 +97,6 @@ var HistoryCounterService = {
 		if (forwardButton && !this.forwardCount) {
 			countBox = document.createElement('vbox');
 			countBox.setAttribute('class', this.BOX_CLASS_NAME);
-			countBox.setAttribute('onclick', 'if (this.parentNode.oncommand) { this.parentNode.oncommand(); } else { eval(this.parentNode.getAttribute("oncommand")); }');
 
 			countBox.appendChild(document.createElement('label'));
 			countBox.lastChild.setAttribute('class', this.LABEL_CLASS_NAME);
