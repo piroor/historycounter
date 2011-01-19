@@ -141,7 +141,7 @@ var HistoryCounterService = {
 		}
 	},
  
-	updateCountForTab : function(aTab, aTabBrowser) 
+	updateCountForTab : function(aTab) 
 	{
 		var counter = document.getAnonymousElementByAttribute(aTab, 'class', this.LABEL_CLASS_NAME);
 		if (!counter) return;
@@ -201,27 +201,18 @@ var HistoryCounterService = {
 	initTabBrowser : function(aTabBrowser) 
 	{
 		aTabBrowser.addProgressListener(this, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
+		aTabBrowser.addTabsProgressListener(this, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 
 		var tabs = this.getTabs(aTabBrowser);
 		for (let i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
 			this.initTab(tabs.snapshotItem(i), aTabBrowser);
 		}
-
-		if ('swapBrowsersAndCloseOther' in aTabBrowser) {
-			eval('aTabBrowser.swapBrowsersAndCloseOther = '+aTabBrowser.swapBrowsersAndCloseOther.toSource().replace(
-				'{',
-				'{ HistoryCounterService.destroyTab(aOurTab);'
-			).replace(
-				'if (aOurTab == this.selectedTab) {this.updateCurrentBrowser(',
-				'HistoryCounterService.initTab(aOurTab); $&'
-			));
-		}
 	},
  
 	initTab : function(aTab, aTabBrowser) 
 	{
-		if (aTab.__historycounter__progressListener) return;
+		if (aTab.linkedBrowser.__historycounter__linkedTab) return;
 
 		if (!aTabBrowser) aTabBrowser = this.getTabBrowserFromChild(aTab);
 		var counter = document.getAnonymousElementByAttribute(aTab, 'class', this.BOX_CLASS_NAME);
@@ -238,17 +229,10 @@ var HistoryCounterService = {
 				text.parentNode.insertBefore(counter, text.nextSibling);
 			}
 
-			this.updateCountForTab(aTab, aTabBrowser);
+			this.updateCountForTab(aTab);
 		}
 
-		aTab.__historycounter__parentTabBrowser = aTabBrowser;
-
-		var filter = Components.classes['@mozilla.org/appshell/component/browser-status-filter;1'].createInstance(Components.interfaces.nsIWebProgress);
-		var listener = new HistoryCounterProgressListener(aTab, aTabBrowser);
-		filter.addProgressListener(listener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
-		aTab.linkedBrowser.webProgress.addProgressListener(filter, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
-		aTab.__historycounter__progressListener = listener;
-		aTab.__historycounter__progressFilter   = filter;
+		aTab.linkedBrowser.__historycounter__linkedTab = aTab;
 	},
   
 	destroy : function() 
@@ -269,6 +253,7 @@ var HistoryCounterService = {
 	destroyTabBrowser : function(aTabBrowser) 
 	{
 		aTabBrowser.removeProgressListener(this);
+		aTabBrowser.removeTabsProgressListener(this);
 
 		var tabs = this.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -280,17 +265,7 @@ var HistoryCounterService = {
 	destroyTab : function(aTab) 
 	{
 		try {
-			delete aTab.__historycounter__parentTabBrowser;
-
-			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__historycounter__progressFilter);
-			aTab.__historycounter__progressFilter.removeProgressListener(aTab.__historycounter__progressListener);
-
-			delete aTab.__historycounter__progressListener.mLabel;
-			delete aTab.__historycounter__progressListener.mTab;
-			delete aTab.__historycounter__progressListener.mTabBrowser;
-
-			delete aTab.__historycounter__progressFilter;
-			delete aTab.__historycounter__progressListener;
+			delete aTab.linkedBrowser.__historycounter__linkedTab;
 		}
 		catch(e) {
 			dump(e+'\n');
@@ -446,12 +421,33 @@ var HistoryCounterService = {
 	},
   
 /* nsIWebProgressListener */ 
-	onStateChange : function() {},
 	onProgressChange : function() {},
 	onStatusChange : function() {},
 	onSecurityChange : function() {},
+	onStateChange : function(aWebProgress, aRequest, aStateFlags, aStatus)
+	{
+		Application.console.log(aWebProgress);
+		// ignore not for tab
+		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
+			return;
+
+		var browser = arguments[0];
+		aStateFlags = arguments[3];
+
+		const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
+		if (
+			aStateFlags & nsIWebProgressListener.STATE_STOP &&
+			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
+			) {
+			this.updateCountForTab(browser.__historycounter__linkedTab);
+		}
+	},
 	onLocationChange : function(aWebProgress, aRequest, aLocation)
 	{
+		// ignore for tab
+		if (!(aWebProgress instanceof Components.interfaces.nsIWebProgress))
+			return;
+
 		this.updateCount();
 		window.setTimeout(function(aSelf) { aSelf.updateCount(); }, 0, this);
 	},
@@ -474,44 +470,4 @@ var HistoryCounterService = {
 
 window.addEventListener('load', HistoryCounterService, false);
 window.addEventListener('unload', HistoryCounterService, false);
- 
-function HistoryCounterProgressListener(aTab, aTabBrowser) 
-{
-	this.mTab = aTab;
-	this.mTabBrowser = aTabBrowser;
-}
-HistoryCounterProgressListener.prototype = {
-	mTab        : null,
-	mTabBrowser : null,
-	onProgressChange: function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
-	{
-	},
-	onStateChange : function(aWebProgress, aRequest, aStateFlags, aStatus)
-	{
-		const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
-		if (
-			aStateFlags & nsIWebProgressListener.STATE_STOP &&
-			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
-			) {
-			HistoryCounterService.updateCountForTab(this.mTab, this.mTabBrowser);
-		}
-	},
-	onLocationChange : function(aWebProgress, aRequest, aLocation)
-	{
-	},
-	onStatusChange : function(aWebProgress, aRequest, aStatus, aMessage)
-	{
-	},
-	onSecurityChange : function(aWebProgress, aRequest, aState)
-	{
-	},
-	QueryInterface : function(aIID)
-	{
-		if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
-			aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-			aIID.equals(Components.interfaces.nsISupports))
-			return this;
-		throw Components.results.NS_NOINTERFACE;
-	}
-};
   
