@@ -1,6 +1,7 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
 .historycounter-box {
+	box-pack: center;
 	-moz-box-pack: center;
 }
 
@@ -19,13 +20,16 @@ toolbarbutton > .historycounter-box {
 }
 
 :root[historycounter-align="top"] toolbarbutton > .historycounter-box {
+	box-pack: start;
 	-moz-box-pack: start;
 }
 :root[historycounter-align="middle"] toolbarbutton > .historycounter-box,
 :root[historycounter-align="center"] toolbarbutton > .historycounter-box {
+	box-pack: center;
 	-moz-box-pack: center;
 }
 :root[historycounter-align="bottom"] toolbarbutton > .historycounter-box {
+	box-pack: end;
 	-moz-box-pack: end;
 }
 
@@ -47,6 +51,7 @@ toolbarbutton > .historycounter-box {
 
 #unified-back-forward-button > #back-button,
 #unified-back-forward-button > #forward-button {
+	box-orient: horizontal !important;
 	-moz-box-orient: horizontal !important;
 }
 
