@@ -1,5 +1,8 @@
 # History
 
+ - master/HEAD
+   * Fixed: Don't show counter in pinned tabs.
+   * Modified: "jar" archive is no longer included.
  - 0.2.2011012001
    * Becomes eval-free.
  - 0.2.2011011801
@@ -18,7 +21,7 @@
    * Hungarian locale is updated.
  - 0.1.2008040701
    * Works on Firefox 3 beta5.
-   * Hungarian locale is available. (by Mikes Kaszmè´°n Istvè´°n)
+   * Hungarian locale is available. (by Mikes Kaszm√°n Istv√°n)
  - 0.1.2007090701
    * Improved: Counter in each tab is available.
    * Added: Icon is available.
