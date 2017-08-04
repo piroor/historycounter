@@ -71,7 +71,7 @@ var HistoryCounterService = {
 	{
 		return aTabBrowser.ownerDocument.evaluate(
 				'descendant::*[local-name()="tab"]',
-				aTabBrowser.mTabContainer,
+				aTabBrowser.tabContainer,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
 				null
