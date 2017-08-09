@@ -394,8 +394,7 @@ var HistoryCounterService = {
 		delete this.Prefs;
 		this.Prefs = Components
 						.classes['@mozilla.org/preferences;1']
-						.getService(Components.interfaces.nsIPrefBranch)
-						.QueryInterface(Components.interfaces.nsIPrefBranchInternal);
+						.getService(Components.interfaces.nsIPrefBranch);
 		return this.Prefs;
 	},
  
